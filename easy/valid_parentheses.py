@@ -38,19 +38,21 @@ s consists of parentheses only '()[]{}'.
 
 class Solution:
     def isValid(self, s: str) -> bool:
-        forward = {'(': ')',
-                  '[': ']',
-                  '{': '}'}
-        backward = {')': '(',
-                   ']': '[',
-                   '}': '{'}
-        current = ''
-        while s != '':
-            if s[0] in forward.keys():
-                current += s[0]
-            if s[0] in backward.keys():
-                if (current == '') or (current[-1] != backward[s[0]]):
+        d = {'}':'{',
+            ']':'[',
+            ')':'('}
+        if len(s) % 2 == 1:
+            return False
+        seen = ''
+        i = 0
+        while i < len(s):
+            if s[i] in d.keys():
+                if len(seen) == 0:
                     return False
-                current = current[:-1]
-            s = s[1:]
-        return True and (len(current) == 0)
+                if seen[-1] != d[s[i]]:
+                    return False
+                seen = seen[:-1]
+            else:
+                seen += s[i]
+            i += 1
+        return seen == ''
