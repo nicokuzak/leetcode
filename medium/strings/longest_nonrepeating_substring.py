@@ -33,19 +33,19 @@ s consists of English letters, digits, symbols and spaces.
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        if len(s) == 0:
-            return 0
-        current = ''
-        best = current
-        i = 0
-        while i < len(s):
-            if current.find(s[i]) != -1:
-                if len(current) > len(best):
-                    best = current
-                current = current[current.find(s[i])+1:]
+        if len(s) < 2:
+            return len(s)
+        d = {}
+        cur = best = 0
+        for i, c in enumerate(s):
+            if c in d.keys():
+                if d[c] >= i - cur:
+                    best = max(best, cur)
+                    cur = i - d[c]
+                else:
+                    cur += 1
             else:
-                current += s[i]
-                i += 1
-        if len(best) < len(current):
-            best = current
-        return len(best)
+                cur += 1
+            d[c] = i
+        best = max(best, cur)
+        return best
