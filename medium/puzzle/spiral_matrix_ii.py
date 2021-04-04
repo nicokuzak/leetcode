@@ -32,7 +32,6 @@ class Solution:
         move_amt = n
         
         while num < n*n:
-            count += 1
             dx *= -1
             dy *= -1
             
